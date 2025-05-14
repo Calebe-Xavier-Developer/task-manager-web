@@ -1,8 +1,8 @@
-import { TASK_MANAGER_API_KEY } from "~/config/constants";
+import { TASK_MANAGER_API_URL } from "~/config/constants";
 
 
 export const login = async (email: string, password: string): Promise<string> => {
-  const res = await fetch(`${TASK_MANAGER_API_KEY}/api/login`, {
+  const res = await fetch(`${TASK_MANAGER_API_URL}/api/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
