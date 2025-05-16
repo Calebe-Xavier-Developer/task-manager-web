@@ -12,3 +12,15 @@ export const getBoards = async () => {
 
     return res.json();
 }
+
+export const getBoardByid = async (id: string) => {
+    const res = await fetch(`${TASK_MANAGER_API_URL}/boards/${id}`,{
+        headers: {
+            Authorization: `Bearer ${getToken()}`,
+        },
+    });
+
+    if (!res.ok) throw new Error("Failed to fetch board");
+
+    return res.json();
+}

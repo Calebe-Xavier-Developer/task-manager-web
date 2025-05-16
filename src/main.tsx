@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import Home from './routes/home';
 import RequireAuth from './components/RequireAuth';
 import BoardsPage from './pages/BoardsPage';
+import BoardDetailPage from './pages/BoardDetailPage';
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -14,6 +15,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/login" element={<Login />} />
         <Route path="/home" element={<RequireAuth><Home/></RequireAuth>} />
         <Route path="/boards" element={<RequireAuth><BoardsPage/></RequireAuth>} />
+        <Route path="/boards/:id" element={<RequireAuth><BoardDetailPage/></RequireAuth>} />
         <Route path="*" element={<Navigate to="/home"/>} />
       </Routes>
     </BrowserRouter>
