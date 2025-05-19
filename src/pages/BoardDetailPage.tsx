@@ -3,18 +3,20 @@ import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSens
 import React, { useEffect, useState } from 'react'
 import { set } from 'react-hook-form';
 import { useParams } from 'react-router-dom'
+import Column from '~/components/Column';
 import { getBoardByid } from '~/services/boards';
 
 type Task = {
-    id: string;
-    title: string;
-}
+  id: string;
+  title: string;
+  position: number;
+};
 
 type Column = {
-    id: string;
-    name: string;
-    tasks: Task[];
-}
+  id: string;
+  name: string;
+  tasks: Task[];
+};
 
 
 const BoardDetailPage = () => {
@@ -39,16 +41,12 @@ const BoardDetailPage = () => {
             <DndContext collisionDetection={closestCenter} sensors={sensors}>
                 <div className='flex gap-4'>
                     {columns.map((column) => (
-                        <div key={column.id} className='bg-gray-100 p-4 rounded w-64 min-w-[256px]'>
-                            <h2 className='text-lg font-semibold mb-4'>{column.name}</h2>
-                            <div className='space-y-2'>
-                                {column.tasks.map((task) => (
-                                    <div key={task.id} className='bg-white p-2 rounded shadow hover:bg-gray-50'>
-                                        {task.title}
-                                    </div>
-                                ))}
-                            </div>
-                        </div>
+                        <Column 
+                            key={column.id}
+                            id={column.id}
+                            name={column.name}
+                            initialTasks={column.tasks}
+                        />
                     ))}
                 </div>
             </DndContext>
