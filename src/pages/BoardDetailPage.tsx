@@ -6,6 +6,7 @@ import { set } from 'react-hook-form';
 import { useParams } from 'react-router-dom'
 import Column from '~/components/Column';
 import { getBoardByid, reorderColumns } from '~/services/boards';
+import { createColumn } from '~/services/column';
 
 type Task = {
   id: string;
@@ -23,6 +24,8 @@ type Column = {
 const BoardDetailPage = () => {
     const { id: boardId } = useParams();
     const [columns, setColumns] = useState<Column[]>([]);
+    const [isCreatingColumn, setIsCreatingColumn] = useState(false);
+    const [newColumnName, setNewColumnName] = useState('');
 
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));;
 
@@ -33,6 +36,17 @@ const BoardDetailPage = () => {
         .then((data) => { setColumns(data.columns) })
         .catch((err) => { console.error(err) });
     }, [boardId]);
+
+    const handleCreateColumn = async () => {
+        if (!boardId || !newColumnName.trim()) return;
+
+        try {
+            const createdColumn = await createColumn(boardId, newColumnName.trim());
+            setColumns((prev) => [...prev, createdColumn]);
+            setNewColumnName('');
+            setIsCreatingColumn(false);
+        } catch (error) { console.error('Error creating column:', error) }
+    }
     
 
     return (
@@ -64,6 +78,28 @@ const BoardDetailPage = () => {
                             initialTasks={column.tasks}
                         />
                     ))}
+                </div>
+                <div className="min-w-[256px]">
+                    {isCreatingColumn ? (
+                        <div className="bg-gray-100 p-4 rounded h-full">
+                        <input
+                            className="w-full p-2 border rounded mb-2"
+                            value={newColumnName}
+                            onChange={(e) => setNewColumnName(e.target.value)}
+                            onKeyDown={(e) => e.key === 'Enter' && handleCreateColumn()}
+                            placeholder="Column name"
+                        />
+                        <button className="text-sm text-blue-600" onClick={handleCreateColumn}>Add</button>
+                        <button className="text-sm text-gray-500 ml-2" onClick={() => setIsCreatingColumn(false)}>Cancel</button>
+                        </div>
+                    ) : (
+                        <button
+                        className="text-sm text-blue-600"
+                        onClick={() => setIsCreatingColumn(true)}
+                        >
+                        + Add Column
+                        </button>
+                    )}
                 </div>
             </DndContext>
         </div>
