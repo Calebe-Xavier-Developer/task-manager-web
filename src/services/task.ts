@@ -3,7 +3,7 @@ import { getToken } from "./auth"
 
 export const reorderTasks = async (columnId: string, orderneredTasksIds: string[]) => {
     const res = await fetch(`${TASK_MANAGER_API_URL}/tasks/reorder`, {
-        method: "POST",
+        method: "PATCH",
         headers: {
             'Content-Type': 'application/json',
             Authorization: `Bearer ${getToken()}`,
