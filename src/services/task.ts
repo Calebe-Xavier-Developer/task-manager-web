@@ -15,3 +15,18 @@ export const reorderTasks = async (columnId: string, orderneredTasksIds: string[
 
     return res.json();
 }
+
+export const createTask = async (columnId: string, title: string) => {
+    const res = await fetch(`${TASK_MANAGER_API_URL}/tasks`, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${getToken()}`,
+        },
+        body: JSON.stringify({ title, columnId }),
+    });
+
+    if (!res.ok) throw new Error("Failed to create task");
+
+    return res.json();
+}
