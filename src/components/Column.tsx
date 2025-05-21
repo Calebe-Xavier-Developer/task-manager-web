@@ -3,6 +3,7 @@ import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSo
 import { c } from 'node_modules/vite/dist/node/moduleRunnerTransport.d-DJ_mE5sf';
 import React, { useState } from 'react'
 import SortableTask from './SortableTask';
+import { reorderTasks } from '~/services/task';
 
 type Task = {
     id: string;
@@ -41,6 +42,8 @@ const Column = ({ id, name, initialTasks }: ColumnProps) => {
                     const reordered = arrayMove(tasks, oldIndex, newIndex);
                     setTasks(reordered);
 
+                    const orderedIds = reordered.map((task) => task.id);
+                    reorderTasks(id, orderedIds);
                 }
             }}
         >
