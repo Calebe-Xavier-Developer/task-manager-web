@@ -1,7 +1,6 @@
 import { closestCenter, DndContext, KeyboardSensor, PointerSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy } from '@dnd-kit/sortable';
-import { c } from 'node_modules/vite/dist/node/moduleRunnerTransport.d-DJ_mE5sf';
-import React, { useState } from 'react'
+import { useState } from 'react'
 import SortableTask from './SortableTask';
 import { createTask, reorderTasks } from '~/services/task';
 

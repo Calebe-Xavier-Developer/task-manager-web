@@ -1,8 +1,7 @@
 
 import { closestCenter, DndContext, MouseSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core';
 import { arrayMove } from '@dnd-kit/sortable';
-import React, { useEffect, useState } from 'react'
-import { set } from 'react-hook-form';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom'
 import Column from '~/components/Column';
 import { getBoardByid, reorderColumns } from '~/services/boards';

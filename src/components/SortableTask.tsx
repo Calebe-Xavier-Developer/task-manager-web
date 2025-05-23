@@ -1,8 +1,5 @@
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { title } from 'process';
-import React from 'react'
-import { string } from 'zod'
 
 
 interface TaskProps {

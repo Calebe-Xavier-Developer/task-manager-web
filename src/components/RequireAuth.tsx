@@ -8,7 +8,7 @@ interface Props {
 
 const RequireAuth = ({ children }: Props) => {
     const token = getToken();
-    return token ? <>children</> : <Navigate to="/login" />;
+    return token ? <>{children}</> : <Navigate to="/login" />;
 
 }
 
