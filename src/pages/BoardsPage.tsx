@@ -1,20 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { getBoards } from '~/services/boards';
+import { Board, getBoards } from '~/services/boards';
 
-type Board = {
-    id: string;
-    name: string;
-}
 
 const BoardsPage = () => {
     const [boards, setBoards] = useState<Board[]>([]);
     const navigate = useNavigate();
-
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      getBoards().then(setBoards).catch((err) => {console.log(err)})
-    }, [])
+        getBoards()
+        .then(setBoards)
+        .catch(console.error)
+        .finally(() => setLoading(false));
+    }, []);
     
 
   return (
@@ -27,20 +26,23 @@ const BoardsPage = () => {
             + Create New Board
         </button>
 
-        <ul className='space-y-2'>
-            {boards.map((board) => (
-                <li key={board.id} className='border p-4 rounded flex justify-between items-center'>
-                    <span>{board.name}</span>
-                    <button
-                        className='bg-blue-600 text-white px-4 py-2 rounded'
-                        onClick={() => navigate(`/boards/${board.id}`)}
-                    >
-                        View
-                    </button>
-                </li>
-            ))}
-        </ul>
-
+        {loading ? (
+            <p>Loading...</p>
+        ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+                {boards.map((board) => (
+                    <div key={board.id} className='p-4 bg-white shadow rounded cursor-pointer hover:bg-blue-50'>
+                        <span>{board.name}</span>
+                        <button
+                            className='bg-blue-600 text-white px-4 py-2 rounded'
+                            onClick={() => navigate(`/boards/${board.id}`)}
+                        >
+                            View
+                        </button>
+                    </div>
+                ))}
+            </div>
+        )}
     </div>
   )
 }

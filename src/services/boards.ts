@@ -1,17 +1,21 @@
 import { TASK_MANAGER_API_URL } from "~/config/constants"
 import { getToken } from "./auth"
 
-export const getBoards = async () => {
-    const res = await fetch(`${TASK_MANAGER_API_URL}/boards`,{
-        headers: {
-            Authorization: `Bearer ${getToken()}`,
-        },
-    });
-
-    if (!res.ok) throw new Error("Failed to fetch boards");
-
-    return res.json();
+export interface Board {
+  id: string;
+  name: string;
 }
+
+export const getBoards = async (): Promise<Board[]> => {
+  const res = await fetch(`${TASK_MANAGER_API_URL}/boards`, {
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  if (!res.ok) throw new Error('Failed to fetch boards');
+  return res.json();
+};
 
 export const getBoardByid = async (id: string) => {
     const res = await fetch(`${TASK_MANAGER_API_URL}/boards/${id}`,{
@@ -21,7 +25,6 @@ export const getBoardByid = async (id: string) => {
     });
 
     if (!res.ok) throw new Error("Failed to fetch board");
-
     return res.json();
 }
 
