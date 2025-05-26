@@ -6,6 +6,20 @@ export interface Board {
   name: string;
 }
 
+export const createBoard = async (name: string): Promise<Board> => {
+  const res = await fetch(`${TASK_MANAGER_API_URL}/boards`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${getToken()}`,
+    },
+    body: JSON.stringify({ name }),
+  });
+
+  if (!res.ok) throw new Error('Failed to create board');
+  return res.json();
+};
+
 export const getBoards = async (): Promise<Board[]> => {
   const res = await fetch(`${TASK_MANAGER_API_URL}/boards`, {
     headers: {
@@ -42,3 +56,15 @@ export const reorderColumns = async (boardId: string, columnsIds: string[]) => {
 
     return res.json();
 }
+
+export const deleteBoard = async (id: string): Promise<void> => {
+  const res = await fetch(`${TASK_MANAGER_API_URL}/boards/${id}`, {
+    method: 'DELETE',
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+  });
+
+  if (!res.ok) throw new Error('Failed to delete board');
+  return res.json();
+};
