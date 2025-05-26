@@ -8,6 +8,7 @@ import BoardsPage from './pages/BoardsPage';
 import BoardDetailPage from './pages/BoardDetailPage';
 import Register from './pages/Register';
 import './styles/global.css';
+import PrivateLayout from './layouts/PrivateLayout';
 
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
@@ -17,10 +18,14 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
         <Route path="/" element={<Navigate to="/login" />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/home" element={<RequireAuth><Home/></RequireAuth>} />
-        <Route path="/boards" element={<RequireAuth><BoardsPage/></RequireAuth>} />
-        <Route path="/boards/:id" element={<RequireAuth><BoardDetailPage/></RequireAuth>} />
-        <Route path="*" element={<Navigate to="/home"/>} />
+
+        <Route element={<RequireAuth><PrivateLayout /></RequireAuth>}>
+          <Route path="/home" element={<Home/>} />
+          <Route path="/boards" element={<BoardsPage/>} />
+          <Route path="/boards/:id" element={<BoardDetailPage/>} />
+        </Route>
+        
+        <Route path="*" element={<Navigate to="/login"/>} /> 
       </Routes>
     </BrowserRouter>
   </React.StrictMode>
